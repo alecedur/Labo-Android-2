@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         buttonInit.setOnClickListener(View.OnClickListener {
             //cambiamos el color de uno solo
             button1.setBackgroundColor(Color.GRAY)
-            playSound(music, 1)
+            playSound(music, 6)
             hyperDisable()
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button1.setBackgroundColor(Color.RED)
@@ -64,10 +64,58 @@ class MainActivity : AppCompatActivity() {
             }, 2000) // set time as per your requirement
         })
 
+        button1.setOnClickListener(View.OnClickListener {
+            button1.setBackgroundColor(Color.GRAY)
+            playSound(music, 0)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button1.setBackgroundColor(Color.RED)
+            }, 1000) // set time as per your requirement
+        })
+
+        button2.setOnClickListener(View.OnClickListener {
+            button2.setBackgroundColor(Color.GRAY)
+            playSound(music, 1)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button2.setBackgroundColor(Color.parseColor("#FF5722"))
+            }, 1000) // set time as per your requirement
+        })
+
+        button3.setOnClickListener(View.OnClickListener {
+            button3.setBackgroundColor(Color.GRAY)
+            playSound(music, 2)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button3.setBackgroundColor(Color.parseColor("#FFEB3B"))
+            }, 1000) // set time as per your requirement
+        })
+
+        button4.setOnClickListener(View.OnClickListener {
+            button4.setBackgroundColor(Color.GRAY)
+            playSound(music, 3)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button4.setBackgroundColor(Color.parseColor("#4CAF50"))
+            }, 1000) // set time as per your requirement
+        })
+
+        button5.setOnClickListener(View.OnClickListener {
+            button5.setBackgroundColor(Color.GRAY)
+            playSound(music, 4)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button5.setBackgroundColor(Color.parseColor("#FF03DAC5"))
+            }, 1000) // set time as per your requirement
+        })
+
+        button6.setOnClickListener(View.OnClickListener {
+            button6.setBackgroundColor(Color.GRAY)
+            playSound(music, 5)
+            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
+                button6.setBackgroundColor(Color.parseColor("#2196F3"))
+            }, 1000) // set time as per your requirement
+        })
     }
     private fun playSound(music: MutableList<Int>, button: Int) {
         val sound = music[button]
         val song = MediaPlayer.create(this, sound)
         song.start()
     }
+
 }
