@@ -33,10 +33,17 @@ class MainActivity : AppCompatActivity() {
         music.add(R.raw.sound_la)
         music.add(R.raw.sound_si)
 
-        buttonInit.setOnClickListener(View.OnClickListener {
-            //cambiamos el color de uno solo
-            button1.setBackgroundColor(Color.GRAY)
-            playSound(music, 1)
+        fun hyperEnable(){
+            buttonInit.isClickable = true
+            button1.isClickable = true
+            button2.isClickable = true
+            button3.isClickable = true
+            button4.isClickable = true
+            button5.isClickable = true
+            button6.isClickable = true
+        }
+
+        fun hyperDisable(){
             buttonInit.isClickable = false
             button1.isClickable = false
             button2.isClickable = false
@@ -44,18 +51,19 @@ class MainActivity : AppCompatActivity() {
             button4.isClickable = false
             button5.isClickable = false
             button6.isClickable = false
+        }
+
+        buttonInit.setOnClickListener(View.OnClickListener {
+            //cambiamos el color de uno solo
+            button1.setBackgroundColor(Color.GRAY)
+            playSound(music, 1)
+            hyperDisable()
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button1.setBackgroundColor(Color.RED)
-                buttonInit.isClickable = true
-                button1.isClickable = true
-                button2.isClickable = true
-                button3.isClickable = true
-                button4.isClickable = true
-                button5.isClickable = true
-                button6.isClickable = true
-
+                hyperEnable()
             }, 2000) // set time as per your requirement
         })
+
     }
     private fun playSound(music: MutableList<Int>, button: Int) {
         val sound = music[button]
