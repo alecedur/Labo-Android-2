@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
+import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,23 +69,36 @@ class MainActivity : AppCompatActivity() {
             for (i in 1..4) {
                 val randomNumber: Int = Random.nextInt(6)
                 pattern.add(randomNumber)
+                playSound(music, randomNumber)
                 if (randomNumber==0){
-                    changeColour(button1, randomNumber, music)
+                    button1.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button1, randomNumber)
                 }
                 if (randomNumber==1){
-                    changeColour(button2, randomNumber, music)
+                    button2.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button2, randomNumber)
                 }
                 if (randomNumber==2){
-                    changeColour(button3, randomNumber, music)
+                    button3.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button3, randomNumber)
                 }
                 if (randomNumber==3){
-                    changeColour(button4, randomNumber, music)
+                    button4.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button4, randomNumber)
                 }
                 if (randomNumber==4){
-                    changeColour(button5, randomNumber, music)
+                    button5.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button5, randomNumber)
                 }
                 if (randomNumber==5){
-                    changeColour(button6, randomNumber, music)
+                    button6.setBackgroundColor(Color.GRAY)
+                    Thread.sleep(1000)
+                    restoreColour(button6, randomNumber)
                 }
             }
             hyperEnable()
@@ -179,36 +193,14 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    /*private fun changeColour(button: Button, counter: Int, music: MutableList<Int>){
+    private fun grayColour(button: Button){
         button.setBackgroundColor(Color.GRAY)
-        playSound(music, counter)
-        Handler(Looper.getMainLooper()).postDelayed(Runnable { // This method will be executed once the timer is over
-            if (counter==0){
-                button.setBackgroundColor(Color.RED)
-            }
-            if (counter==1){
-                button.setBackgroundColor(Color.parseColor("#FF5722"))
-            }
-            if (counter==2){
-                button.setBackgroundColor(Color.parseColor("#FFEB3B"))
-            }
-            if (counter==3){
-                button.setBackgroundColor(Color.parseColor("#4CAF50"))
-            }
-            if (counter==4){
-                button.setBackgroundColor(Color.parseColor("#FF03DAC5"))
-            }
-            if (counter==5){
-                button.setBackgroundColor(Color.parseColor("#2196F3"))
-            }
-        }, 2000) // set time as per your requirement
-
     }
-*/
-    private fun changeColour(button: Button, counter: Int, music: MutableList<Int>) = runBlocking {
 
+    /*private fun changeColour(button: Button, counter: Int, music: MutableList<Int>) = runBlocking {
         launch {
             delay(1000L)
+
             if (counter==0){
                 button.setBackgroundColor(Color.RED)
             }
@@ -228,15 +220,36 @@ class MainActivity : AppCompatActivity() {
                 button.setBackgroundColor(Color.parseColor("#2196F3"))
             }
         }
-        button.setBackgroundColor(Color.GRAY)
         playSound(music, counter)
+        button.setBackgroundColor(Color.GRAY)
+    }*/
+
+    private fun changeColour(button: Button, counter: Int, music: MutableList<Int>) = runBlocking {
+        launch { test(button, counter, music) }
+        playSound(music, counter)
+        button.setBackgroundColor(Color.GRAY)
     }
 
-    private fun evalPattern(pattern: MutableList<Int>){
-        for (i in 0 until pattern.size) {
-
+    suspend fun test(button: Button, counter: Int, music: MutableList<Int>){
+        delay(1000)
+        if (counter==0){
+            button.setBackgroundColor(Color.RED)
+        }
+        if (counter==1){
+            button.setBackgroundColor(Color.parseColor("#FF5722"))
+        }
+        if (counter==2){
+            button.setBackgroundColor(Color.parseColor("#FFEB3B"))
+        }
+        if (counter==3){
+            button.setBackgroundColor(Color.parseColor("#4CAF50"))
+        }
+        if (counter==4){
+            button.setBackgroundColor(Color.parseColor("#FF03DAC5"))
+        }
+        if (counter==5){
+            button.setBackgroundColor(Color.parseColor("#2196F3"))
         }
     }
-
 
 }
