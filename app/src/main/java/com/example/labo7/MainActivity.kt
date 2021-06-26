@@ -7,9 +7,13 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlin.random.Random
 import kotlinx.coroutines.*
+import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.concurrent.schedule
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -20,8 +24,8 @@ class MainActivity : AppCompatActivity() {
         val pattern: MutableList<Int> = ArrayList()
         val userPattern: MutableList<Int> = ArrayList()
 
-        val counter = 0     //este contador lleva
-        val flag_init = 0   //esta bandera indica si se ha presionado el boton
+        var userInput = 0     //este contador lleva la cantidad de inputs presionados por el usuario
+        var flag_init = false   //esta bandera indica si se ha presionado el boton
 
         //inicializamos los botones
         val buttonInit = findViewById<Button>(R.id.Inicio)
@@ -64,70 +68,82 @@ class MainActivity : AppCompatActivity() {
             button6.isClickable = false
         }
 
+        fun EvalPatterns(i: Int){
+            if (pattern[i]!=userPattern[i]){
+                Toast.makeText(this@MainActivity, "Secuencia incorrecta", Toast.LENGTH_SHORT).show()
+                userInput = 0
+                flag_init = false
+                pattern.clear()
+                userPattern.clear()
+            }
+            if (i==3){
+                Toast.makeText(this@MainActivity, "Secuencia correcta", Toast.LENGTH_SHORT).show()
+                userInput = 0
+                flag_init = false
+                pattern.clear()
+                userPattern.clear()
+            }
+        }
+
         buttonInit.setOnClickListener(View.OnClickListener {
+            flag_init = true
             hyperDisable()
             for (i in 1..4) {
-                val randomNumber: Int = Random.nextInt(6)
-                pattern.add(randomNumber)
-                playSound(music, randomNumber)
-                if (randomNumber==0){
-                    button1.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button1, randomNumber)
+                val randomNum: Int = Random.nextInt(6)
+                pattern.add(randomNum)
+                if (randomNum==0){
+                    //grayColour(button1)
+                    test(button1, i, randomNum, music)
                 }
-                if (randomNumber==1){
-                    button2.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button2, randomNumber)
+                if (randomNum==1){
+                    //grayColour(button2)
+                    test(button2, i, randomNum, music)
                 }
-                if (randomNumber==2){
-                    button3.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button3, randomNumber)
+                if (randomNum==2){
+                    //grayColour(button3)
+                    test(button3, i, randomNum, music)
                 }
-                if (randomNumber==3){
-                    button4.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button4, randomNumber)
+                if (randomNum==3){
+                    //grayColour(button4)
+                    test(button4, i, randomNum, music)
                 }
-                if (randomNumber==4){
-                    button5.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button5, randomNumber)
+                if (randomNum==4){
+                    //grayColour(button5)
+                    test(button5, i, randomNum, music)
                 }
-                if (randomNumber==5){
-                    button6.setBackgroundColor(Color.GRAY)
-                    Thread.sleep(1000)
-                    restoreColour(button6, randomNumber)
+                if (randomNum==5){
+                    //grayColour(button6)
+                    test(button6, i, randomNum, music)
+                }
+                Timer().schedule(5000){
+                    hyperEnable()
                 }
             }
-            hyperEnable()
-
 
         })
-
-        /*buttonInit.setOnClickListener(View.OnClickListener {
-            button1.setBackgroundColor(Color.GRAY)
-            playSound(music, 6)
-            hyperDisable()
-
-            Handler().postDelayed(Runnable { // This method will be executed once the timer is over
-                button1.setBackgroundColor(Color.RED)
-                hyperEnable()
-            }, 2000) // set time as per your requirement
-        })*/
 
         button1.setOnClickListener(View.OnClickListener {
             button1.setBackgroundColor(Color.GRAY)
             playSound(music, 0)
+            if (flag_init==true){
+                userPattern.add(0)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button1.setBackgroundColor(Color.RED)
             }, 1000) // set time as per your requirement
+
         })
 
         button2.setOnClickListener(View.OnClickListener {
             button2.setBackgroundColor(Color.GRAY)
             playSound(music, 1)
+            if (flag_init==true){
+                userPattern.add(1)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button2.setBackgroundColor(Color.parseColor("#FF5722"))
             }, 1000) // set time as per your requirement
@@ -136,6 +152,11 @@ class MainActivity : AppCompatActivity() {
         button3.setOnClickListener(View.OnClickListener {
             button3.setBackgroundColor(Color.GRAY)
             playSound(music, 2)
+            if (flag_init==true){
+                userPattern.add(2)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button3.setBackgroundColor(Color.parseColor("#FFEB3B"))
             }, 1000) // set time as per your requirement
@@ -144,6 +165,11 @@ class MainActivity : AppCompatActivity() {
         button4.setOnClickListener(View.OnClickListener {
             button4.setBackgroundColor(Color.GRAY)
             playSound(music, 3)
+            if (flag_init==true){
+                userPattern.add(3)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button4.setBackgroundColor(Color.parseColor("#4CAF50"))
             }, 1000) // set time as per your requirement
@@ -152,6 +178,11 @@ class MainActivity : AppCompatActivity() {
         button5.setOnClickListener(View.OnClickListener {
             button5.setBackgroundColor(Color.GRAY)
             playSound(music, 4)
+            if (flag_init==true){
+                userPattern.add(4)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button5.setBackgroundColor(Color.parseColor("#FF03DAC5"))
             }, 1000) // set time as per your requirement
@@ -160,6 +191,11 @@ class MainActivity : AppCompatActivity() {
         button6.setOnClickListener(View.OnClickListener {
             button6.setBackgroundColor(Color.GRAY)
             playSound(music, 5)
+            if (flag_init==true){
+                userPattern.add(5)
+                EvalPatterns(userInput)
+                userInput+=1
+            }
             Handler().postDelayed(Runnable { // This method will be executed once the timer is over
                 button6.setBackgroundColor(Color.parseColor("#2196F3"))
             }, 1000) // set time as per your requirement
@@ -171,84 +207,48 @@ class MainActivity : AppCompatActivity() {
         song.start()
     }
 
-    private fun restoreColour(button: Button, counter: Int){
-        if (counter==0){
-            button.setBackgroundColor(Color.RED)
+    private fun test(button: Button, counter: Int, pattern:Int, music: MutableList<Int>){
+        val timeout : Int = 1000*counter
+        var tTimeout = timeout.toLong()
+        if(counter == 1) {
+            button.setBackgroundColor(Color.GRAY)
+            playSound(music, pattern)
         }
-        if (counter==1){
-            button.setBackgroundColor(Color.parseColor("#FF5722"))
+        else {
+            Timer().schedule(tTimeout) {
+                playSound(music, pattern)
+                button.setBackgroundColor(Color.GRAY)
+            }
         }
-        if (counter==2){
-            button.setBackgroundColor(Color.parseColor("#FFEB3B"))
-        }
-        if (counter==3){
-            button.setBackgroundColor(Color.parseColor("#4CAF50"))
-        }
-        if (counter==4){
-            button.setBackgroundColor(Color.parseColor("#FF03DAC5"))
-        }
-        if (counter==5){
-            button.setBackgroundColor(Color.parseColor("#2196F3"))
+        if(counter !=1){
+            tTimeout += 1000
         }
 
-    }
-
-    private fun grayColour(button: Button){
-        button.setBackgroundColor(Color.GRAY)
-    }
-
-    /*private fun changeColour(button: Button, counter: Int, music: MutableList<Int>) = runBlocking {
-        launch {
-            delay(1000L)
-
-            if (counter==0){
+        Timer().schedule(tTimeout){
+            if (pattern==0){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.RED)
             }
-            if (counter==1){
+            if (pattern==1){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.parseColor("#FF5722"))
             }
-            if (counter==2){
+            if (pattern==2){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.parseColor("#FFEB3B"))
             }
-            if (counter==3){
+            if (pattern==3){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.parseColor("#4CAF50"))
             }
-            if (counter==4){
+            if (pattern==4){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.parseColor("#FF03DAC5"))
             }
-            if (counter==5){
+            if (pattern==5){
+                //playSound(music, pattern)
                 button.setBackgroundColor(Color.parseColor("#2196F3"))
             }
-        }
-        playSound(music, counter)
-        button.setBackgroundColor(Color.GRAY)
-    }*/
-
-    private fun changeColour(button: Button, counter: Int, music: MutableList<Int>) = runBlocking {
-        launch { test(button, counter, music) }
-        playSound(music, counter)
-        button.setBackgroundColor(Color.GRAY)
-    }
-
-    suspend fun test(button: Button, counter: Int, music: MutableList<Int>){
-        delay(1000)
-        if (counter==0){
-            button.setBackgroundColor(Color.RED)
-        }
-        if (counter==1){
-            button.setBackgroundColor(Color.parseColor("#FF5722"))
-        }
-        if (counter==2){
-            button.setBackgroundColor(Color.parseColor("#FFEB3B"))
-        }
-        if (counter==3){
-            button.setBackgroundColor(Color.parseColor("#4CAF50"))
-        }
-        if (counter==4){
-            button.setBackgroundColor(Color.parseColor("#FF03DAC5"))
-        }
-        if (counter==5){
-            button.setBackgroundColor(Color.parseColor("#2196F3"))
         }
     }
 
