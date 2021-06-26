@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //lista de patron a revisar
+        //lista de patron autogenerado y patron a revisar
         val pattern: MutableList<Int> = ArrayList()
         val userPattern: MutableList<Int> = ArrayList()
 
@@ -68,6 +68,9 @@ class MainActivity : AppCompatActivity() {
             button6.isClickable = false
         }
 
+        //funcion recibe la cantidad de numeros ingresados por el usuario, evalua ambas listas
+        //si son iguales no hace nada, si son diferentes ya se sabe que el usuario ingreso algo mal
+        //si el contador es 3 entonces ya se ingresaron los 4 botones, y si no se cumple el primer
         fun EvalPatterns(i: Int){
             if (pattern[i]!=userPattern[i]){
                 Toast.makeText(this@MainActivity, "Secuencia incorrecta", Toast.LENGTH_SHORT).show()
@@ -85,6 +88,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //estructura de botones. El boton inicial deshabilita todoso los botones
+        //y crea una secuencia random la cual se muestra en pantalla de boton a boton
         buttonInit.setOnClickListener(View.OnClickListener {
             flag_init = true
             hyperDisable()
@@ -122,6 +127,8 @@ class MainActivity : AppCompatActivity() {
 
         })
 
+        //Todos los demas botones funcionan igual. Siempre y cuando no se presione
+        //el boton inicial, simplemente se reproduce un sonido y cambia a color gris.
         button1.setOnClickListener(View.OnClickListener {
             button1.setBackgroundColor(Color.GRAY)
             playSound(music, 0)
@@ -207,6 +214,9 @@ class MainActivity : AppCompatActivity() {
         song.start()
     }
 
+    //esta funcion carga un timer a partir del valor de la iteracion actual, de manera que se
+    //crea un delay artificial entre botones. Entonces por iteracion del for en buttonInit se
+    //cambia de color el primer boton y se agrega un timeout para el siguiente boton
     private fun test(button: Button, counter: Int, pattern:Int, music: MutableList<Int>){
         val timeout : Int = 1000*counter
         var tTimeout = timeout.toLong()
